@@ -1,0 +1,3 @@
+import CustomerShell from "../customer-shell";import {OrderDetails} from "../track-order/order-tracker";import Link from "next/link";
+export const metadata={title:"Your Order | Detoxleaf",robots:{index:false,follow:false}};
+export default async function Page({searchParams}){const query=await searchParams;return <CustomerShell title="Your fresh start." accent="Every step, together." description="Your saved order and its latest updates.">{query.order?<OrderDetails reference={query.order} confirmation/>:<section className="surface-panel"><h2>Find your order</h2><Link href="/account/orders" className="button green">My orders ↗</Link><Link href="/track-order">Track an order ↗</Link></section>}</CustomerShell>;}

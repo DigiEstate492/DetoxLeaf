@@ -1,0 +1,11 @@
+export function chartData(orders,period,now=new Date()){
+  const start=new Date(now);start.setHours(0,0,0,0);if(period==="Weekly")start.setDate(start.getDate()-6);if(period==="Monthly")start.setDate(1);
+  const key=date=>period==="Daily"?String(date.getHours()):[date.getFullYear(),date.getMonth(),date.getDate()].join("-");
+  const trend=[];if(period==="Daily"){for(let hour=0;hour<24;hour++)trend.push({key:String(hour),label:String(hour).padStart(2,"0")+":00",revenue:0,orders:0});}else{for(const date=new Date(start);date<=now;date.setDate(date.getDate()+1))trend.push({key:key(date),label:date.toLocaleDateString("en-IN",{day:"numeric",month:"short"}),revenue:0,orders:0});}
+  const periodOrders=orders.filter(order=>{const date=new Date(order.createdAt);return Number.isFinite(date.getTime())&&date>=start&&date<=now;});
+  const valid=periodOrders.filter(order=>!order.cancelled);for(const order of valid){const bucket=trend.find(item=>item.key===key(new Date(order.createdAt)));if(bucket){bucket.revenue+=Number(order.total)||0;bucket.orders++;}}
+  const cities=Object.entries(valid.reduce((map,order)=>({...map,[order.city||"Unspecified"]:(map[order.city||"Unspecified"]||0)+1}),{})).map(([name,value])=>({name,value})).sort((a,b)=>b.value-a.value).slice(0,6);
+  const counts={Confirmed:0,Preparing:0,Packed:0,"On the way":0,Delivered:0,Cancelled:0};const names=["Confirmed","Preparing","Packed","On the way","Delivered"];for(const order of periodOrders){const name=order.cancelled?"Cancelled":names[order.stage];if(name)counts[name]++;}const status=Object.entries(counts).filter(([,value])=>value>0).map(([name,value])=>({name,value}));
+  return {trend,cities,status,total:valid.reduce((sum,order)=>sum+(Number(order.total)||0),0),count:valid.length,allCount:periodOrders.length};
+}
+export function sampleChartOrders(now=new Date()){return Array.from({length:24},(_,index)=>{const date=new Date(now);date.setDate(date.getDate()-index%7);date.setHours(Math.max(0,now.getHours()-(index%4)),15,0,0);if(date>now)date.setTime(now.getTime());return {id:"CHART-SAMPLE-"+index,createdAt:date.toISOString(),total:540+(index%4)*500,city:["Gurugram","Delhi","Noida"][index%3],stage:index%5,cancelled:index%11===0};});}

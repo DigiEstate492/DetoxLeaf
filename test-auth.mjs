@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {safeNext,allowedStaff,staffCanOpen} from './lib/auth-policy.mjs';
+for(const value of ['https://evil.example','//evil.example','/\\evil.example','/\nevil','javascript:alert(1)',null,[], '/ /evil'])assert.equal(safeNext(value),'/account');
+assert.equal(safeNext('/account/orders?tab=recent'),'/account/orders?tab=recent');
+assert.equal(safeNext('/admin','/admin'),'/admin');
+assert.equal(allowedStaff({active:true,role:'owner'}),true);
+for(const value of [null,{role:'owner',active:false},{role:'customer',active:true},{requested_admin:true}])assert.equal(allowedStaff(value),false);
+assert.equal(staffCanOpen('viewer','/admin/analytics'),true);
+assert.equal(staffCanOpen('viewer','/admin/products'),false);
+assert.equal(staffCanOpen('support','/admin/team'),false);
+assert.equal(staffCanOpen('operations','/admin/deliveries'),true);
+console.log('PASS: redirect validation, inactive/unknown roles denied, staff route permissions.');

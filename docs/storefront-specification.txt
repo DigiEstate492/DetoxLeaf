@@ -1,0 +1,590 @@
+E-COMMERCE WEBSITE
+
+1. HEADER
+
+Desktop
+
+DETOX LEAF logo
+
+Shop | Subscriptions | Our Farm | Why Detox Leaf | Recipes | About
+
+Right:
+
+🔍 Search 👤 Account 🛒 Cart
+
+Top announcement bar:
+
+🌱 FARM FRESH WHEATGRASS • DELIVERED TO YOUR DOOR
+
+Mobile:
+
+☰ Logo 🔍 🛒
+
+⸻
+
+2. HOMEPAGE
+
+Hero
+
+Large, premium photograph/video of fresh wheatgrass.
+
+FRESH WHEATGRASS, STRAIGHT FROM THE FARM.
+
+Freshly grown wheatgrass trays delivered to your doorstep.
+
+[ SHOP NOW ]
+
+[ SUBSCRIBE & SAVE ]
+
+Below hero:
+
+Fresh • Farm Grown • Home Delivered
+
+⸻
+
+3. SHOP SECTION
+
+Shop Fresh Wheatgrass
+
+Product card:
+
+Fresh Wheatgrass
+
+★★★★★ 4.9
+
+1 + 1 FREE
+
+₹500
+
+₹700
+
+− 1 +
+
+[ ADD TO CART ]
+
+[ BUY NOW ]
+
+Under product:
+
+Approx. 1.25 KG fresh wheatgrass
+
+⸻
+
+4. PRODUCT PAGE
+
+This should be your most important page.
+
+Left
+
+Large image gallery:
+
+* Product
+* Fresh tray
+* Growing process
+* Harvest
+* Packaging
+* Juice preparation
+* Farm
+
+Right
+
+Fresh Wheatgrass — 1 + 1 FREE
+
+★★★★★
+4.9 | 200+ reviews
+
+₹500
+
+Select Quantity
+
+○ 2 Trays
+○ 4 Trays
+○ 8 Trays
+
+Delivery
+
+Enter your PIN CODE
+
+[ 1100XX ] [ CHECK ]
+
+Then:
+
+✓ Delivery available
+✓ Estimated delivery: 1–2 days
+
+CTA
+
+ADD TO CART
+
+BUY IT NOW
+
+⸻
+
+5. PRODUCT INFORMATION TABS
+
+Below product:
+
+What’s Included
+
+Fresh wheatgrass trays.
+
+How It Works
+
+Grow → Harvest → Pack → Deliver.
+
+How to Consume
+
+Simple preparation instructions.
+
+Storage
+
+How to keep the product fresh.
+
+FAQs
+
+Product-specific questions.
+
+⸻
+
+6. SUBSCRIPTION
+
+This needs to look like a proper e-commerce subscription product.
+
+🌱 MAKE FRESH WHEATGRASS A ROUTINE
+
+Choose your delivery frequency.
+
+WEEKLY
+
+4 deliveries/month
+
+₹____ / month
+
+[ SELECT ]
+
+EVERY 2 WEEKS
+
+2 deliveries/month
+
+₹____ / month
+
+[ SELECT ]
+
+FAMILY PLAN
+
+8+ trays/month
+
+₹____ / month
+
+[ SELECT ]
+
+⸻
+
+Subscription benefits
+
+✓ Automatic delivery
+✓ Special subscriber pricing
+✓ Skip anytime
+✓ Pause anytime
+✓ Change quantity
+✓ Change delivery date
+
+⸻
+
+7. SHOPPING CART
+
+When customer clicks cart:
+
+YOUR CART
+
+Fresh Wheatgrass
+
+1 + 1 FREE
+
+Qty − 1 +
+
+₹500
+
+Remove
+
+⸻
+
+You may also like
+
+Subscribe & Save
+
+⸻
+
+Order Summary
+
+Subtotal: ₹500
+Delivery: ₹XX
+Discount: -₹XX
+
+TOTAL: ₹XXX
+
+[ PROCEED TO CHECKOUT ]
+
+⸻
+
+8. CHECKOUT
+
+Keep checkout extremely clean.
+
+Contact Information
+
+Mobile number
+Email
+
+Delivery Address
+
+Name
+House/Flat
+Street
+Area
+City
+State
+PIN code
+
+Delivery
+
+Available delivery dates
+
+○ 8 October
+○ 9 October
+○ 10 October
+
+⸻
+
+Payment
+
+UPI
+
+Credit/Debit Card
+
+Net Banking
+
+Wallet
+
+Cash on Delivery — if you decide to offer it.
+
+Order Summary
+
+Product
+Quantity
+Discount
+Delivery
+Total
+
+[ PLACE ORDER ]
+
+⸻
+
+9. ORDER CONFIRMATION
+
+After payment:
+
+🎉 ORDER CONFIRMED
+
+Thank you, Sheetal!
+
+Order No.
+
+DL-0004
+
+Fresh Wheatgrass
+1 + 1 FREE
+
+₹500
+
+Delivery:
+
+10 October
+
+📍 Gurugram
+
+⸻
+
+ORDER STATUS
+
+Confirmed ✓
+
+Packed ✓
+
+Out for Delivery
+
+Delivered
+
+[ TRACK ORDER ]
+
+[ CHAT ON WHATSAPP ]
+
+⸻
+
+10. CUSTOMER ACCOUNT
+
+Proper e-commerce account section.
+
+My Account
+
+Dashboard
+
+My Orders
+
+My Subscriptions
+
+Saved Addresses
+
+Payment Methods
+
+Wishlist
+
+Rewards
+
+Profile
+
+⸻
+
+11. MY ORDERS
+
+Example:
+
+DL-0004
+
+Fresh Wheatgrass
+₹500
+
+10 October
+
+Out for Delivery
+
+[TRACK ORDER]
+
+⸻
+
+12. SUBSCRIPTION DASHBOARD
+
+This is particularly important.
+
+Customer sees:
+
+YOUR DETOX LEAF SUBSCRIPTION
+
+Weekly Plan
+
+Next delivery:
+
+10 October
+
+Options:
+
+SKIP DELIVERY
+
+CHANGE DATE
+
+CHANGE QUANTITY
+
+PAUSE
+
+CANCEL
+
+CHANGE ADDRESS
+
+⸻
+
+13. ORDER TRACKING
+
+Create a proper tracking page:
+
+DL-0004
+
+Order Confirmed ✓
+
+↓
+
+Being Prepared ✓
+
+↓
+
+Packed ✓
+
+↓
+
+Out for Delivery
+
+↓
+
+Delivered
+
+Include:
+
+Delivery partner details
+
+Expected delivery time
+
+WhatsApp support
+
+⸻
+
+14. SEARCH
+
+Search should work across:
+
+* Products
+* Recipes
+* Blog
+* FAQs
+
+Example:
+
+Search:
+
+wheatgrass
+
+Results:
+
+Fresh Wheatgrass
+
+How to Make Wheatgrass Juice
+
+How to Store Wheatgrass
+
+⸻
+
+15. WISHLIST
+
+Even with one product, build the functionality because you may add products later.
+
+❤️ Add to Wishlist
+
+Future products could include:
+
+* Wheatgrass
+* Wheatgrass juice
+* Starter kits
+* Growing kits
+* Wellness products
+
+⸻
+
+16. COUPONS
+
+Proper coupon system.
+
+Examples:
+
+WELCOME100
+
+FIRSTORDER
+
+SUBSCRIBE10
+
+REFER100
+
+Admin should be able to create:
+
+* Percentage discount
+* Fixed discount
+* Minimum order
+* Expiry
+* First-order only
+* Subscription only
+* Specific customer segment
+
+⸻
+
+17. REVIEWS
+
+Product page:
+
+★★★★★
+
+4.9/5
+
+Based on 200+ reviews
+
+Filters:
+
+All | Photo | Video | 5 Star | 4 Star
+
+Customers can submit:
+
+* Rating
+* Text
+* Photo
+* Video
+
+⸻
+
+18. WHATSAPP
+
+Floating button:
+
+💬 Chat with Detox Leaf
+
+Automations:
+
+Order confirmed
+
+Your Detox Leaf order DL-0004 has been confirmed 🌱
+
+Order packed
+
+Out for delivery
+
+Delivered
+
+Subscription reminder
+
+Review request
+
+⸻
+
+19. EMAIL AUTOMATION
+
+Order emails
+
+Order confirmation
+Payment confirmation
+Order shipped
+Delivery confirmation
+
+Marketing
+
+Welcome email
+Abandoned cart
+Subscription reminder
+Review request
+Win-back campaign
+
+⸻
+
+20. ADMIN PANEL
+
+The backend should be a serious e-commerce dashboard.
+
+Dashboard
+
+Today’s Sales
+
+₹25,500
+
+Orders
+
+51
+
+New Customers
+
+22
+
+Subscriptions
+
+126
+
+Pending Deliveries
+
+31
+
+⸻
+
+21. ORDER M

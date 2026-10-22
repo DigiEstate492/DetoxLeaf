@@ -1,0 +1,3 @@
+"use client";
+import {useCatalog,publicProduct} from './commerce/client';
+export default function ProductReviews(){const catalog=useCatalog(),product=publicProduct(catalog);const reviews=catalog.reviews.filter(r=>r.product_id===product.id);return <section className="surface-panel product-local-reviews"><p className="eyebrow">VERIFIED PURCHASE REVIEWS</p><h2>{reviews.length?'Real experiences. Fresh perspectives.':'Your green story starts here.'}</h2>{catalog.error?<p>Reviews are temporarily unavailable.</p>:reviews.length?reviews.map(review=><article key={review.id}><h3>{'★'.repeat(review.rating)} <span>{review.display_name}</span></h3><p>{review.body}</p></article>):<p>No published purchase reviews yet.</p>}</section>;}

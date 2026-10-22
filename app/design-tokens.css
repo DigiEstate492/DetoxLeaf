@@ -1,0 +1,28 @@
+/* Shared botanical surfaces. Keep gradients on accents, cream on reading areas. */
+:root {
+  --brand-gradient: linear-gradient(135deg, #103e25 0%, #1b6c35 36%, #3b983c 70%, #7cb342 100%);
+  --brand-gradient-deep: linear-gradient(135deg, #103e25 0%, #195a30 45%, #2b7537 100%);
+  --brand-gradient-soft: linear-gradient(135deg, #f9f7ef 0%, #edf4e4 50%, #dfedce 100%);
+  --brand-gradient-glow: radial-gradient(ellipse at 92% 8%, #d6f88e26, transparent 48%), linear-gradient(135deg, transparent 43%, #ffffff06 43.1%, #ffffff06 62%, transparent 62.1%);
+  --brand-on-gradient: #fffdf4;
+  --brand-on-gradient-muted: #e2ecd8;
+  --brand-on-gradient-accent: #d8f4a9;
+}
+.brand-gradient-surface {
+  position: relative;
+  isolation: isolate;
+  background: var(--brand-gradient);
+  color: var(--brand-on-gradient);
+}
+.brand-gradient-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--brand-gradient-glow);
+}
+.brand-gradient-surface .eyebrow { color: var(--brand-on-gradient-muted); }
+.brand-gradient-surface h2 { color: var(--brand-on-gradient); }
+.brand-gradient-surface h2 em { color: var(--brand-on-gradient-accent); }
+.brand-gradient-soft { background: var(--brand-gradient-soft); }

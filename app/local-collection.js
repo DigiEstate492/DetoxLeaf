@@ -1,0 +1,3 @@
+"use client";
+import Link from 'next/link';import {useCatalog,publicProduct} from './commerce/client';
+export default function Collection(){const catalog=useCatalog(),product=publicProduct(catalog);return <Link href="/fresh-wheatgrass" className="collection-card"><img src={product.image} alt={product.name}/><div><p className="eyebrow">FRESH COLLECTION</p><h2>{product.name}</h2><p>{product.description}</p><p>{catalog.loading?'Checking availability…':catalog.error?'Availability temporarily unavailable':product.id?product.available+' trays available':'Ordering not open yet'}</p>{product.price>0&&<strong>₹{product.price}</strong>}<span>Explore the product ↗</span></div></Link>;}

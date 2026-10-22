@@ -1,0 +1,5 @@
+import AuthShell from "../auth-shell";
+import AuthForm from "../auth-form";
+import {safeNext} from "../../lib/auth-policy.mjs";
+export const metadata={title:"Forgot Password | Detoxleaf",robots:{index:false,follow:false}};
+export default async function Page({searchParams}){const query=await searchParams;const admin=false||query.audience==="admin";const messages={"signed-out":"You have been signed out.","password-updated":"Password updated. Log in with your new password.","confirmation-failed":"That link has expired or was already used. Try logging in, or request a new reset link."};return <AuthShell title="A little reset." accent="A fresh beginning." description="Enter your account email and we’ll help you find your way back." admin={admin}><h2>{admin?"Team login":"Forgot your password?"}</h2><AuthForm mode="forgot" audience={admin?"admin":"customer"} next={safeNext(query.next,admin?"/admin":"/account")} message={messages[query.message]||(query.error==="configuration"?"Authentication needs to be configured. Please contact the store owner.":"")}/></AuthShell>;}
