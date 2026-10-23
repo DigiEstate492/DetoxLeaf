@@ -1,11 +1,11 @@
+import {loadPublicCatalog} from "../../../lib/commerce/catalog.mjs";
 import {gatewayConfig} from "../../../lib/commerce/payments.mjs";
 import {supabaseServer} from "../../../lib/supabase/server";
 import {body,check,failure,identity,json} from "../../../lib/commerce/server";
 export const runtime="nodejs";
 export async function GET(request){try{const url=new URL(request.url),action=url.searchParams.get("action")||"catalog";const db=await supabaseServer();
  if(action==="catalog"){
- const [products,variants,plans,images,stock,reviews]=await Promise.all([db.from("products").select("id,slug,name,description,sku,status,price_paise,gst_percent").in("status",["active","coming_soon"]).order("created_at"),db.from("product_variants").select("*").eq("active",true),db.from("subscription_plans").select("*").eq("active",true),db.from("product_images").select("*"),db.rpc("dl_availability"),db.from("published_reviews").select("*").order("created_at",{ascending:false}).limit(100)]);
- return json({products:check(products),variants:check(variants),plans:check(plans),images:check(images),stock:check(stock),reviews:check(reviews)});
+ return json(await loadPublicCatalog(db));
  }
  if(action==="delivery"){const pin=url.searchParams.get("pin");if(!/^[0-9]{6}$/.test(pin||""))return json({error:"Enter a six-digit PIN."},400);const area=check(await db.from("service_areas").select("*").eq("pincode",pin).maybeSingle());return json({area,slots:area?check(await db.rpc("dl_slots",{pin})):[]});}
  const {user}=await identity();

@@ -228,6 +228,16 @@ BEGIN
  WHEN 'farm_batches' THEN allowed:=ARRAY['code','product_id','planting_date','harvest_date','expires_on','trays','production_quantity_grams','status','wasted'];
  WHEN 'coupons' THEN allowed:=ARRAY['code','kind','value','minimum_paise','max_discount_paise','usage_limit','per_customer_limit','first_order_only','subscriber_only','starts_at','expires_at','active'];
  WHEN 'content_pages' THEN allowed:=ARRAY['slug','title','kind','body','seo_title','seo_description','status','published_at'];
+ WHEN 'addresses' THEN allowed:=ARRAY['customer_id','label','recipient','phone','line1','line2','city','state','pincode'];
+ WHEN 'subscriptions' THEN allowed:=ARRAY['status','next_delivery_date','quantity']; IF record_id IS NULL THEN RAISE EXCEPTION 'Schedules are created from confirmed customer orders'; END IF;
+ WHEN 'reward_ledger' THEN
+ IF record_id IS NOT NULL THEN RAISE EXCEPTION 'Reward history cannot be rewritten. Add a correcting adjustment.'; END IF;
+ IF length(trim(coalesce(fields->>'reason','')))<5 OR coalesce((fields->>'points')::integer,0)=0 THEN RAISE EXCEPTION 'Enter a nonzero points adjustment and a clear reason'; END IF;
+ PERFORM 1 FROM public.profiles WHERE id=(fields->>'customer_id')::uuid FOR UPDATE;
+ IF NOT FOUND THEN RAISE EXCEPTION 'Choose an existing customer'; END IF;
+ IF (SELECT coalesce(sum(points),0) FROM public.reward_ledger WHERE customer_id=(fields->>'customer_id')::uuid)+(fields->>'points')::integer<0 THEN RAISE EXCEPTION 'Adjustment would make the reward balance negative'; END IF;
+ fields:=fields||jsonb_build_object('idempotency_key','admin-adjustment/'||gen_random_uuid());
+ allowed:=ARRAY['customer_id','points','reason','idempotency_key'];
  WHEN 'profiles' THEN allowed:=ARRAY['full_name','phone','tags']; IF record_id IS NULL THEN RAISE EXCEPTION 'Choose an existing customer'; END IF;
  WHEN 'store_settings' THEN allowed:=ARRAY['key','value']; pk:='key'; IF coalesce(record_id,fields->>'key') NOT IN ('brand','checkout','rewards') THEN RAISE EXCEPTION 'Unsupported business setting'; END IF;
  WHEN 'staff_members' THEN

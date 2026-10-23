@@ -1,0 +1,4 @@
+# Homepage hero background
+Asset: public/media/wheatgrass-hero.png
+Generated with the built-in imagegen tool.
+Prompt: Use case: photorealistic-natural. Asset type: wide premium website hero background for Detoxleaf wheatgrass wellness brand. Create an exquisite photorealistic macro editorial photograph of real young wheatgrass, slender upright fresh green blades with delicate morning dew, richly detailed on the RIGHT half and lower foreground, soft dark forest green negative space on the LEFT half for large white website heading. Warm early morning sunlight streams from upper right, gentle golden bokeh, emerald and lime greens, natural organic atmosphere, luxurious restrained photography, shallow depth of field, wide cinematic 16:9 landscape composition. No ornamental variegated grass, no white stripes, no text, no logos, no containers, no people, no watermark. Wheatgrass should look healthy, tender and recognizably upright.
