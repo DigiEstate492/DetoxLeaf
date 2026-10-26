@@ -1,0 +1,13 @@
+Detoxleaf — Pure Wellness From Nature
+
+Your email address was updated.
+
+The email address on your account has changed. If you did not request this change, contact support immediately and review your account security.
+
+
+
+Contact support: {{ .SiteURL }}/contact
+
+Need a hand? {{ .SiteURL }}/contact
+You received this operational update because of an account or store action.
+Farm fresh. Grown with care.

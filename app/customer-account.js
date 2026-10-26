@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FeedbackToast from "./feedback-toast";
 import CustomerActions from "./customer-actions";
 import {requireUser} from "../lib/supabase/auth";
 import {saveAccountProfile,addAccountAddress,removeAccountAddress} from "./account/actions";
@@ -16,7 +17,7 @@ export default async function CustomerAccount({section="overview",feedback={}}){
  if(section==='support'&&data.length)messages=(await supabase.from('support_messages').select('id,ticket_id,body,created_at').in('ticket_id',data.map(t=>t.id)).eq('internal',false).order('created_at')).data||[];}
  let balance=0;if(section==="rewards"){const result=await supabase.rpc("dl_reward_balance");if(result.error)error=result.error;else balance=Number(result.data);}
  const name=profile?.full_name||user.user_metadata?.full_name||"green friend";
- return <div className="customer-account"><aside className="account-nav"><p className="eyebrow">MY DETOXLEAF</p><nav aria-label="Customer account">{sections.map(item=><Link key={item} aria-current={section===item?"page":undefined} href={item==="overview"?"/account":"/account/"+item}>{item[0].toUpperCase()+item.slice(1)} ↗</Link>)}</nav></aside><div className="account-body"><p className="eyebrow">YOUR ACCOUNT · {user.email}</p>
+ return <div className="customer-account"><FeedbackToast saved={feedback.saved} error={feedback.error} section={section}/><aside className="account-nav"><p className="eyebrow">MY DETOXLEAF</p><nav aria-label="Customer account">{sections.map(item=><Link key={item} aria-current={section===item?"page":undefined} href={item==="overview"?"/account":"/account/"+item}>{item[0].toUpperCase()+item.slice(1)} ↗</Link>)}</nav></aside><div className="account-body"><p className="eyebrow">YOUR ACCOUNT · {user.email}</p>
  {feedback.saved&&<p className="auth-notice" role="status">Saved successfully.</p>}{feedback.error&&<p className="auth-error" role="alert">{feedback.error==="validation"?"Check your details and try again.":"We couldn’t save your changes. Please retry, or ask the store owner to check database setup."}</p>}
  {error&&<div className="auth-error" role="alert">We couldn’t load these records. Please try again. If this is a new setup, the store owner needs to run the Supabase migration.</div>}
  {section==="overview"&&<><h2>Hello, {name}.</h2><p>Your account is ready. Your confirmed orders and subscriptions will appear here.</p><div className="info-grid"><Link href="/account/orders" className="surface-panel"><h3>Your orders</h3><p>Check your purchases and delivery progress.</p></Link><Link href="/account/profile" className="surface-panel"><h3>Make it personal</h3><p>Update your name and phone number.</p></Link><Link href="/account/addresses" className="surface-panel"><h3>Your doorstep</h3><p>Save your delivery addresses.</p></Link></div><p className="preview-note">Your saved orders, profile and addresses stay with your signed-in account.</p></>}

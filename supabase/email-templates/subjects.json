@@ -1,0 +1,10 @@
+{
+  "confirmation": "Welcome to Detoxleaf — confirm your email",
+  "recovery": "Reset your Detoxleaf password",
+  "magic_link": "Your secure Detoxleaf sign-in link",
+  "invite": "Your invitation to Detoxleaf",
+  "email_change": "Confirm your Detoxleaf email change",
+  "reauthentication": "Your Detoxleaf verification code",
+  "password_changed_notification": "Your Detoxleaf password changed",
+  "email_changed_notification": "Your Detoxleaf email address changed"
+}

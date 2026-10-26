@@ -16,7 +16,7 @@ Add the values and restart the Next.js server. Missing credentials do not make c
 
 Open `/admin/email` as an approved owner/admin. It shows missing variable names and a test-email button. The button sends only to the signed-in admin's confirmed email address. It accepts no arbitrary recipient from the browser. Repeated clicks within the same minute use a provider idempotency key. A successful response means Resend accepted the request; check delivery/bounces in Resend and the recipient inbox separately.
 
-The existing `/admin/notifications` demo outbox links to this settings page. Local demo outbox records are not sent or marked as delivered.
+The protected `/admin/notifications` screen shows persisted email jobs and their processing status.
 
 ## Signup confirmations and password resets
 
@@ -40,14 +40,12 @@ Official references: [Resend SMTP](https://resend.com/docs/send-with-smtp), [Sup
 
 ## Transactional integration
 
-`lib/resend-email.mjs` implements server-side Resend API sending with a 10-second timeout, plain-text/HTML bodies, safe error results, and required idempotency keys. It uses the API directly; no additional email SDK is necessary. Resend idempotency has a limited provider retention window and is not a substitute for a durable outbox.
+The live commerce backend now queues real database action events for the /api/jobs worker. The action-email migration extends this to orders, delivery, payments, schedules, support, reviews, accounts, rewards, team access and consented delivery waitlists. See [action-emails.md](action-emails.md) for the current action map, recipient rules, migrations and scheduler configuration.
 
-`lib/email-templates.mjs` provides branded admin-test, verified Razorpay test-receipt, order-confirmation and packed/out-for-delivery/delivered templates. HTML values are escaped. Order/delivery helpers are for trusted database order snapshots, never arbitrary client payloads.
+The active gateway API is /api/payments and /api/payments/webhook. Legacy /api/razorpay/order and /verify endpoints are retired. Test email delivery uses the configured operator inbox, never an arbitrary checkout email.
 
-After successful `/api/razorpay/verify`, a test receipt is attempted only if RESEND_TEST_TO and valid sending configuration are present. Payment verification stays successful if email fails. The response includes only the email status. This sends a clearly labelled gateway test receipt, not a fulfilment confirmation, and never uses the checkout's entered email address. Reverification reuses the payment's provider idempotency key.
-
-Real order/delivery emails are **not yet triggered**: checkout and operational transitions still use browser-local demo records. Connect the existing database notification_jobs outbox to trusted persisted order transitions, with leasing/retries/delivery-event handling, when that backend is implemented. This integration does not silently turn fictional demo orders into real customer communications.
+The HTML and plain text renderer uses trusted database snapshots and escapes dynamic fields. Outbox keys deduplicate replayed events. Resend acceptance is not proof of inbox delivery. No real email was sent during implementation.
 
 ## Checks
 
-`node test-resend.mjs` uses a mock fetch transport and fake keys. It checks no-key behavior, recipient validation, idempotency, escaping, test-only routing and failure handling without sending anything.
+Run node test-resend.mjs and node test-action-emails.mjs. Both use isolated fixtures or mock transport and send no real messages.

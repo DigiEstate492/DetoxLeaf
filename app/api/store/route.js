@@ -9,6 +9,7 @@ export async function GET(request){try{const url=new URL(request.url),action=url
  }
  if(action==="delivery"){const pin=url.searchParams.get("pin");if(!/^[0-9]{6}$/.test(pin||""))return json({error:"Enter a six-digit PIN."},400);const area=check(await db.from("service_areas").select("*").eq("pincode",pin).maybeSingle());return json({area,slots:area?check(await db.rpc("dl_slots",{pin})):[]});}
  const {user}=await identity();
+ if(action==="offer"){return json(check(await db.rpc("dl_offer_eligibility")));}
  if(action==="tracking"){
  const ref=url.searchParams.get("reference")||"";let query=db.from("orders").select("*").eq("customer_id",user.id);query=/^[0-9a-f-]{36}$/i.test(ref)?query.eq("id",ref):query.eq("order_number",ref.toUpperCase());const order=check(await query.maybeSingle());if(!order)return json({error:"No matching order was found in your account."},404);
  const [items,events]=await Promise.all([db.from("order_items").select("*").eq("order_id",order.id),db.from("order_events").select("*").eq("order_id",order.id).eq("customer_visible",true).order("created_at")]);return json({order,items:check(items),events:check(events)});

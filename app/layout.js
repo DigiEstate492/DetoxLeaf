@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import DemoToasts from "./demo-toasts";
+import PlatformChat from "./platform-chat";
 import WhatsAppContact from "./whatsapp-contact";
 import CelebrationLayer from "./celebration-layer";
 const display=localFont({src:[{path:"./fonts/Poppins-Regular.woff2",weight:"400"},{path:"./fonts/Poppins-Medium.woff2",weight:"500"},{path:"./fonts/Poppins-SemiBold.woff2",weight:"600"},{path:"./fonts/Poppins-Bold.woff2",weight:"700"}],variable:"--font-display",display:"swap"});
@@ -10,5 +11,5 @@ export const metadata = {
   description: "Pure Wellness From Nature. Fresh wheatgrass trays, thoughtfully grown and delivered for your daily green ritual.",
 };
 export default function RootLayout({ children }) {
-  return <html lang="en" className={`${display.variable} ${sans.variable}`}><body><CelebrationLayer/>{children}<DemoToasts/><WhatsAppContact/></body></html>;
+  return <html lang="en" className={`${display.variable} ${sans.variable}`}><body><CelebrationLayer/>{children}<DemoToasts/><WhatsAppContact/><PlatformChat/></body></html>;
 }

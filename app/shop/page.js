@@ -1,5 +1,5 @@
 import LocalCollection from "../local-collection";
-import Image from "next/image";
+
 import CustomerShell from "../customer-shell";
-export const metadata={title:"Fresh greens | Detoxleaf",description:"Meet the Detoxleaf collection. Naturally simple, thoughtfully grown."};
-export default function Page(){return <CustomerShell title="Fresh greens." accent="A fresh start." description="Meet the Detoxleaf collection. Naturally simple, thoughtfully grown."><div className="collection-grid"><LocalCollection/><article className="collection-card powder-card"><Image src="/brand/wheatgrass-powder-clear.png" alt="Detoxleaf wheatgrass powder packaging" width={500} height={600}/><div><p className="eyebrow">COMING SOON</p><h2>Wheatgrass Powder</h2><p>A new way to make green part of your day. Product details are being finalised.</p></div></article></div></CustomerShell>;}
+export const metadata={title:"Fresh greens | Detoxleaf",description:"Fresh wheatgrass trays. ₹500 per tray · 1.25 kg per tray."};
+export default function Page(){return <CustomerShell title="Fresh greens." accent="A fresh start." description="Fresh wheatgrass trays. ₹500 per tray · 1.25 kg per tray."><div className="collection-grid"><LocalCollection/><article className="surface-panel tray-offer-panel"><p className="eyebrow">A FRESH START, TOGETHER</p><h2>Your first order.<br/>Twice the green.</h2><p>Buy one tray for ₹500 and receive one complimentary tray on your first eligible one-time order.</p><p>1.25 kg per tray. No code needed. Offer checked against your account; subscription pricing is separate.</p><a className="button green" href="/fresh-wheatgrass">Choose your trays ↗</a><a className="text-link" href="/subscriptions">Explore subscription savings ↗</a></article></div></CustomerShell>;}

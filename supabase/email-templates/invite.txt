@@ -1,0 +1,13 @@
+Detoxleaf — Pure Wellness From Nature
+
+You have a place at Detoxleaf.
+
+You have been invited to create a Detoxleaf account. Accept the invitation to set your password. An invitation does not itself grant staff permissions; an owner must approve team access.
+
+
+
+Accept invitation: {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite&next=/reset-password
+
+Need a hand? {{ .SiteURL }}/contact
+You received this operational update because of an account or store action.
+Farm fresh. Grown with care.

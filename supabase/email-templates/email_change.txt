@@ -1,0 +1,13 @@
+Detoxleaf — Pure Wellness From Nature
+
+Confirm your new email.
+
+A change of email address was requested for your account. Confirm using the secure link only if you requested this change. Otherwise, contact support.
+
+
+
+Confirm email change: {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email_change&next=/account
+
+Need a hand? {{ .SiteURL }}/contact
+You received this operational update because of an account or store action.
+Farm fresh. Grown with care.

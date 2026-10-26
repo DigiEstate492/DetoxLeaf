@@ -1,0 +1,13 @@
+Detoxleaf — Pure Wellness From Nature
+
+One more security check.
+
+Use this code only in the Detoxleaf screen that requested verification. Never share it with another person. If you did not request a code, do not use or forward it.
+
+Verification code: {{ .Token }}
+
+Open my account: {{ .SiteURL }}/account
+
+Need a hand? {{ .SiteURL }}/contact
+You received this operational update because of an account or store action.
+Farm fresh. Grown with care.

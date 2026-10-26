@@ -1,9 +1,11 @@
 "use client";
-import {useActionState,useState} from "react";
+import {useActionState,useState,useEffect} from "react";
+import {notify} from "./commerce/client";
 import Link from "next/link";
 import {authenticate} from "./auth/actions";
 export default function AuthForm({mode="login",audience="customer",next="/account",message=""}){
  const [state,action,pending]=useActionState(authenticate,{});const [show,setShow]=useState(false);
+ useEffect(()=>{if(state.error)notify(state.error,{type:"error"});else if(state.success)notify(state.success,{title:"Check your inbox",type:"info"});},[state]);
  const signup=mode==="signup",forgot=mode==="forgot",reset=mode==="reset",admin=audience==="admin";
  return <form action={action} className="screen-form auth-form"><input type="hidden" name="mode" value={mode}/><input type="hidden" name="audience" value={audience}/><input type="hidden" name="next" value={next}/>
  {message&&<p className="auth-notice" role="status">{message}</p>}
