@@ -10,7 +10,10 @@ const stockFor=state=>({available:state.product.available});
 import Link from "next/link";
 
 import SiteFooter from "./site-footer";
-import BrandLogo from "./brand-logo";
+import SiteHeader from "./site-header";
+import HeroVideo from "./hero-video";
+import ProductReviews from "./product-reviews";
+import TrayFacts from "./tray-facts";
 import Image from "next/image";
 import Reveal from "./reveal";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -51,14 +54,11 @@ export default function Home() {
   const reducedMotion = useReducedMotion();
   return <>
     <div className="announcement"><Icon name="sprout" size={14}/> FARM FRESH WHEATGRASS · DELIVERED TO YOUR DOOR</div>
-    <header className="header home-header"><BrandLogo/>
-      <nav className={menuOpen ? "nav open" : "nav"} aria-label="Main navigation"><Link href="/shop" onClick={()=>setMenuOpen(false)}>Shop</Link><a href="#subscriptions" onClick={()=>{setSubscription(operations.product.subscriptionPrice>0);setMenuOpen(false);}}>Subscriptions <span className="nav-tag">SUBSCRIBE</span></a><Link href="/our-farm" onClick={()=>setMenuOpen(false)}>Our farm</Link><a href="#ritual" onClick={()=>setMenuOpen(false)}>Why Detox Leaf</a><Link href="/recipes" onClick={()=>setMenuOpen(false)}>Recipes</Link><Link href="/blog" onClick={()=>setMenuOpen(false)}>Blog</Link><Link href="/about" onClick={()=>setMenuOpen(false)}>About us</Link><Link className="mobile-only-nav" href="/account" onClick={()=>setMenuOpen(false)}>My account</Link><Link className="mobile-only-nav" href="/wishlist" onClick={()=>setMenuOpen(false)}>Wishlist</Link></nav>
-      <div className="header-actions" aria-label="Shopping tools"><Link className="header-icon-action header-account-action" href="/account" aria-label="My account" title="My account"><Icon name="user" size={20}/></Link><Link className="header-icon-action" href="/search" aria-label="Search website" title="Search"><Icon name="search" size={20}/></Link><Link className="header-icon-action header-wishlist-action" href="/wishlist" aria-label="Your wishlist" title="Wishlist"><Icon name="heart" size={20}/></Link><span className="header-action-divider" aria-hidden="true"/><button className="cart-button header-bag-action" onClick={()=>setCartOpen(true)} aria-label={`Open cart, ${cart} items`} title="Open your bag"><Icon name="bag" size={20}/><span className="header-bag-label">Bag</span><span className="cart-count">{cart>99?'99+':cart}</span></button><button className="menu-button header-icon-action" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close navigation":"Open navigation"} aria-expanded={menuOpen}><Icon name={menuOpen?"close":"menu"} size={21}/></button></div>
-    </header>
+    <SiteHeader home onCart={()=>setCartOpen(true)}/>
     <main>
       <section className="hero premium-hero">
         <Image className="hero-wheatgrass-background" src="/media/wheatgrass-hero.png" alt="" fill sizes="100vw" preload/>
-        <div className="hero-shade"/><div className="hero-grain"/>
+        <HeroVideo/><div className="hero-shade"/><div className="hero-grain"/>
         <Reveal immediate delay={0.12} className="hero-copy"><p className="eyebrow"><span/> SMALL HABIT. BIG CHANGE.</p><h1>Fresh wheatgrass.<br/>Pure wellness.<br/><em>From nature.</em></h1><p className="hero-description">Start your morning with fresh wheatgrass juice.<br/>Farm-grown greens to snip, juice, and enjoy as part of a balanced lifestyle.</p><div className="hero-buttons"><a href="#shop" className="button cream">Shop now <Icon name="arrow" size={20}/></a><a href="#subscriptions" className="hero-link" onClick={()=>setSubscription(operations.product.subscriptionPrice>0)}>Subscribe & save <span>↗</span></a></div><div className="hero-note"><Icon name="sprout" size={19}/> Freshly grown. Ready to juice. Made for your morning.</div></Reveal>
         <a className="hero-editorial-card" href="#shop"><span className="hero-card-index">01 / YOUR MORNING SHOT</span><div><span>Fresh greens.<br/><em>Your daily juice.</em></span><Icon name="arrow" size={25}/></div><p>Shop wheatgrass for juicing <span>↗</span></p></a>
         <a className="hero-scroll" href="#shop">MAKE WELLNESS A RITUAL <span aria-hidden="true">↓</span></a>
@@ -80,6 +80,7 @@ export default function Home() {
       <Reveal as="section" className="ritual section-wrap" id="ritual"><Icon name="leaf" size={38}/><p className="eyebrow">ONE LITTLE HABIT. EVERY SINGLE DAY.</p><h2>Make room for <em>a little green.</em></h2><p>Snip fresh. Juice or blend. Enjoy as part of your morning routine.<br/>Simple ingredients. A fresh moment for yourself.</p><a href="#shop" className="text-link">Start your green ritual <span>↗</span></a></Reveal>
 <Reveal as="section" className="commerce-subscriptions section-wrap" id="subscriptions"><p className="eyebrow">FRESHNESS, ON REPEAT</p><h2>Find your green rhythm.</h2><PlansList/></Reveal>
       <Reveal as="section" className="commerce-recipes section-wrap" id="recipes"><p className="eyebrow">YOUR MORNING, MADE GREEN</p><h2>Keep your ritual <em>simple.</em></h2><div className="recipe-grid"><article><span>01 / PREPARE</span><h3>Fresh wheatgrass juice</h3><p>Snip the fresh shoots above the roots, rinse thoroughly, and use a juicer suited to leafy greens. Follow your appliance instructions.</p></article><article><span>02 / MAKE IT YOURS</span><h3>A little green in your blend</h3><p>Blend rinsed wheatgrass with water and strain, or add freshly prepared juice to a fruit blend you already enjoy.</p></article></div></Reveal>
+      <div className="section-wrap"><TrayFacts/><ProductReviews/></div>
       <Reveal as="section" className="commerce-faq section-wrap" id="faq"><p className="eyebrow">A FEW THINGS TO KNOW</p><h2>Fresh questions.<br/><em>Simple answers.</em></h2><div>{[["What is included?","Choose your preferred tray quantity from the available product variants."],["Is this bottled juice?","No. You receive living wheatgrass trays to snip and prepare at home."],["Can I choose a subscription?","Available delivery plans appear on the product page. Manage your saved schedule in your account; future orders require separate confirmation."],["Do you deliver to my PIN code?","PIN-code coverage, delivery charges, dates and slots will be confirmed through the delivery checker once service areas are configured."],["Can I place an order now?","Choose an available product and delivery slot, sign in and complete checkout. Ordering opens when stock, delivery and payment settings are ready."]].map(([question,answer])=><details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></Reveal>
     </main>
     <SiteFooter/>

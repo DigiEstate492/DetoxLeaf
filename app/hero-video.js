@@ -10,7 +10,7 @@ export default function HeroVideo() {
     element.muted = true;
     element.defaultMuted = true;
     const sync = () => {
-      if (preference.matches) element.pause();
+      if (preference.matches||navigator.connection?.saveData) element.pause();
       else element.play().catch(() => setPlaying(false));
     };
     sync();
@@ -33,7 +33,7 @@ export default function HeroVideo() {
     } else element.pause();
   };
   return <>
-    <video ref={video} className="hero-video" muted loop playsInline preload="metadata" poster="/media/grass-poster.jpg" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => {setFailed(true);setPlaying(false);}} aria-hidden="true" tabIndex={-1}><source src="/media/grass-breeze.mp4" type="video/mp4"/></video>
+    <video ref={video} className={playing?"hero-video hero-video-ready":"hero-video"} muted loop playsInline preload="metadata" poster="/media/wheatgrass-hero.png" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => {setFailed(true);setPlaying(false);}} aria-hidden="true" tabIndex={-1}><source src="/media/grass-breeze.mp4" type="video/mp4"/></video>
     <button className="video-toggle" onClick={toggle} aria-label={playing ? "Pause background video" : "Play background video"}><span aria-hidden="true">{playing ? "Ⅱ" : "▷"}</span><span>{failed ? "Retry film" : playing ? "Pause film" : "Play film"}</span></button>
   </>;
 }
