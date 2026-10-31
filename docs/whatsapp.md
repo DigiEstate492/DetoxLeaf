@@ -19,7 +19,7 @@ An unpaid online order creates no plan, so it sends no alert until payment is ve
 
 `subscription_started`
 
-> Hi {{1}}, your {{2}} delivery plan with Detoxleaf is saved. Your next schedule date is {{3}}. Each future delivery needs a new confirmed order.
+> Hi {{1}}, your {{2}} delivery plan with Detoxleaf is saved. Your next planned date is {{3}}. Our team will contact you if anything needs confirming.
 
 `owner_new_booking`
 

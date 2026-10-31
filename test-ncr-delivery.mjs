@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';import {readFileSync} from 'node:fs';
+const db=new PGlite();await db.exec(`CREATE ROLE anon;CREATE ROLE authenticated;CREATE ROLE service_role BYPASSRLS;CREATE SCHEMA auth;CREATE TABLE auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,raw_user_meta_data jsonb default '{}');CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS $$ SELECT nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;GRANT USAGE ON SCHEMA auth TO anon,authenticated,service_role;GRANT EXECUTE ON FUNCTION auth.uid() TO anon,authenticated,service_role;`);
+for(const f of ['202610160001_initial_commerce.sql','202610210001_live_commerce.sql','202610230001_tray_offers.sql','202610230002_action_emails.sql','202610310001_booking_alerts.sql','202610310002_tray_package_orders.sql'])await db.exec(readFileSync('supabase/migrations/'+f,'utf8'));
+await db.exec("UPDATE public.service_areas SET active=true,delivery_charge_paise=9900 WHERE pincode='122001'");
+const ncr=readFileSync('supabase/migrations/202610310003_delhi_ncr_delivery.sql','utf8');await db.exec(ncr);await db.exec(ncr);
+const one=async(q,p=[])=>(await db.query(q,p)).rows[0];
+const counts=(await db.query("select city,count(*)::int n from public.service_areas where active group by city order by city")).rows;console.log(counts);
+for(const pin of ['110001','110017','122018','121001','201001','201301'])assert.equal((await one('select active from public.service_areas where pincode=$1',[pin])).active,true,pin);
+assert.equal((await one("select delivery_charge_paise n from public.service_areas where pincode='122001'")).n,9900);
+assert.equal((await one("select count(*)::int n from public.delivery_calendar c join public.delivery_slots s on s.id=c.slot_id where s.pincode='110017'")).n,14);
+const buyer='00000000-0000-0000-0000-000000000001';await db.exec(`INSERT INTO auth.users(id,email,email_confirmed_at) VALUES('${buyer}','ncr@example.invalid',now());UPDATE public.products SET tax_confirmed=true,status='active' WHERE slug='fresh-wheatgrass';UPDATE public.content_pages SET body='{"sections":[{"title":"Fixture","paragraphs":["In memory only"]}]}',status='published' WHERE kind='policy';UPDATE public.store_settings SET value=value||'{"enabled":true,"cod_enabled":true,"payment_mode":"test"}'::jsonb WHERE key='checkout';INSERT INTO public.farm_batches(code,product_id,planting_date,harvest_date,expires_on,trays,status) SELECT 'NCR-FIXTURE',id,current_date-8,current_date-1,current_date+20,30,'ready' FROM public.products WHERE slug='fresh-wheatgrass';`);
+const slots=(await one("select public.dl_slots('110017') value")).value;assert.equal(slots.length,14);assert.equal(slots[0].available,5);
+const variant=(await one("select id from public.product_variants where sku='DL-WG-1-T'")).id;
+await db.exec(`SET ROLE authenticated;SET request.jwt.claim.sub='${buyer}';`);
+const order=(await one('select public.dl_checkout($1::jsonb) value',[JSON.stringify({variant_id:variant,calendar_id:slots[0].id,quantity:1,name:'Fixture Buyer',phone:'9876543210',address:'In memory only',pincode:'110017',payment_method:'cod',request_id:'00000000-0000-0000-0000-000000000077'})])).value;
+assert.equal(order.shipping_paise,4000);assert.equal(order.status,'confirmed');
+await db.exec('RESET ROLE');await db.close();console.log('PASS: NCR PINs active; rerun safe; existing 122001 charge kept; 14 dates per PIN; Delhi checkout confirmed with ₹40 delivery. No remote records created.');

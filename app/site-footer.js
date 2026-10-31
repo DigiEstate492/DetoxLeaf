@@ -2,7 +2,7 @@ import Link from "next/link";
 import BrandLogo from "./brand-logo";
 const groups = [
   ["Shop", [["Fresh Wheatgrass", "/fresh-wheatgrass"], ["Delivery plans", "/subscriptions"], ["Bulk orders", "/bulk-orders"], ["Delivery areas", "/delivery-areas"]]],
-  ["Learn", [["Our Farm", "/our-farm"], ["How It Works", "/how-it-works"], ["Recipes", "/recipes"], ["Blog", "/blog"], ["FAQs", "/faq"]]],
+  ["Learn", [["Our Farm", "/our-farm"], ["Recipes", "/recipes"], ["Blog", "/blog"], ["FAQs", "/faq"]]],
   ["Support", [["Contact", "/contact"], ["Track Order", "/track-order"], ["Shipping Policy", "/shipping-policy"], ["Refund Policy", "/refund-policy"], ["Privacy Policy", "/privacy-policy"], ["Terms & Conditions", "/terms-and-conditions"]]],
 ];
 export default function SiteFooter() {

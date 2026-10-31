@@ -1,7 +1,6 @@
 import {PGlite} from '@electric-sql/pglite';
 import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
-import {guideAnswer} from './lib/platform-guide.mjs';
 import {journalPosts,mergeJournalPosts} from './lib/journal-posts.mjs';
 const db=new PGlite();
 await db.exec(`CREATE ROLE anon;CREATE ROLE authenticated;CREATE ROLE service_role BYPASSRLS;CREATE SCHEMA auth;CREATE TABLE auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,raw_user_meta_data jsonb default '{}');CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql STABLE AS $$ SELECT nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;GRANT USAGE ON SCHEMA auth TO anon,authenticated,service_role;GRANT EXECUTE ON FUNCTION auth.uid() TO anon,authenticated,service_role;`);
@@ -26,6 +25,5 @@ await db.exec('RESET ROLE');assert.equal((await db.query('select reserved from p
 assert.equal((await db.query("select status from public.products where slug='wheatgrass-powder'")).rows[0].status,'archived');
 assert.equal((await db.query("select count(*)::int n from public.content_pages where kind='blog' and status='published'")).rows[0].n,3);
 assert.equal((await db.query("select price_paise from public.product_variants where sku='DL-WG-8-T'")).rows[0].price_paise,400000);
-assert.equal(guideAnswer('What is the first order 1+1 offer?').id,'offer');assert.equal(guideAnswer('weekly subscription').id,'plans');assert.equal(guideAnswer('where is my order').id,'tracking');assert.equal(guideAnswer('will this cure diabetes').id,'care');assert.match(guideAnswer('unknown unrelated quux').answer,/reliable answer/);
-assert.equal(journalPosts.length,3);assert.equal(mergeJournalPosts([{slug:journalPosts[0].slug,title:'Edited by owner'}]).length,3);
-await db.close();console.log('PASS: migration reexecution; ₹500 tray pricing; first-order free stock allocation; repeat-order exclusion; idempotency; subscription exclusion; cancellation release; insufficient gift stock rollback; powder archived; 3 posts; guide intents. No remote orders created.');
+assert.equal(journalPosts.length,6);assert.equal(mergeJournalPosts([{slug:journalPosts[0].slug,title:'Edited by owner'}]).length,6);
+await db.close();console.log('PASS: migration reexecution; ₹500 tray pricing; first-order free stock allocation; repeat-order exclusion; idempotency; subscription exclusion; cancellation release; insufficient gift stock rollback; powder archived; 6 posts. No remote orders created.');

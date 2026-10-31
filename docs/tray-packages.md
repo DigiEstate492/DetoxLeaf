@@ -12,6 +12,8 @@ All packages specify three trays per week and the existing listed weight of 1.25
 
 Source of truth: lib/tray-packages.mjs. The reusable app/tray-packages.js component appears through PlansList on the homepage and /subscriptions. Cards stay visible even before optional catalogue data loads. The existing single-delivery database plans remain available inside an expandable section. FAQ and the platform guide describe the new package offers.
 
-Booking links open prefilled WhatsApp drafts to the existing business number. They do not send automatically, take payment, create a database order, reserve stock, or enroll a customer in a paid recurring plan. They explicitly request confirmation of PIN, dates, delivery charges, tax, payment arrangements and cancellation terms. Multi-week prepaid credits, split fulfilment and automatic package billing have not been added to the single-order checkout. This avoids charging for 12/24/36 trays while accidentally booking them into a single delivery slot.
+Booking puts the package in the basket and opens checkout. Migration `202610310002_tray_package_orders.sql` adds the package variants (`DL-WG-PKG-*`) and plans (`WG-PKG-*`); until it is applied the buttons show "Opening soon". The server charges the plan price once, gives no first-order 1+1 and creates a schedule record 7 days after the first delivery.
+
+Known limit: an order has one delivery date, slot and delivery charge. The whole package is reserved from stock and moves through fulfilment as one order, so the team arranges and tracks the later weekly deliveries by hand. Split weekly fulfilment and per-delivery charges are not built.
 
 The reference poster's unsupported medical and certification claims have not been copied into the website. The existing Detoxleaf logo is retained; the phone screenshot and messaging controls are not used as site artwork.
