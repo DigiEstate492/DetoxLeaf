@@ -501,3 +501,15 @@ input,select,textarea{min-width:0;max-width:100%}
 @keyframes leaf-loader-grow{0%{opacity:0;transform:scale(.2)}35%,75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04)}}
 @keyframes leaf-loader-glow{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.leaf-loader,.leaf-loader-glow,.leaf-loader-leaf{animation:none;opacity:1;transform:none}}
+
+/* Checkout PIN field with a searchable list of delivery areas. */
+.pin-picker{position:relative;display:flex;flex-direction:column;gap:9px;font-size:14px}
+.pin-picker-field{position:relative}
+.pin-picker-field>input{width:100%}
+.pin-picker-list{position:absolute;top:100%;left:0;right:0;z-index:30;margin:4px 0 0;padding:6px;list-style:none;max-height:300px;overflow-y:auto;background:#fffdf8;border:1px solid #cbd8bd;border-radius:10px;box-shadow:0 14px 34px #163b2522}
+.pin-picker-list li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:7px;cursor:pointer;font-size:14px}
+.pin-picker-list li.active{background:#eef3e5}
+.pin-picker-list li strong{font-variant-numeric:tabular-nums;font-weight:600;color:#21452f}
+.pin-picker-list li span{color:#65745c}
+.pin-picker-list .pin-picker-more{cursor:default;justify-content:center;font-size:12px;color:#7a846e}
+.pin-picker-note{margin:0;min-height:20px;font-size:13px;line-height:1.5;color:#65745c}

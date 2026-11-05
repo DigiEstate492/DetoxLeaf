@@ -7,6 +7,7 @@ export async function GET(request){try{const url=new URL(request.url),action=url
  if(action==="catalog"){
  return json(await loadPublicCatalog(db));
  }
+ if(action==="areas"){const areas=check(await db.from("service_areas").select("pincode,city").eq("active",true).order("pincode").limit(1000));return json({areas});}
  if(action==="delivery"){const pin=url.searchParams.get("pin");if(!/^[0-9]{6}$/.test(pin||""))return json({error:"Enter a six-digit PIN."},400);const area=check(await db.from("service_areas").select("*").eq("pincode",pin).maybeSingle());return json({area,slots:area?check(await db.rpc("dl_slots",{pin})):[]});}
  const {user}=await identity();
  if(action==="offer"){return json(check(await db.rpc("dl_offer_eligibility")));}
