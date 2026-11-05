@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {safeNext,allowedStaff,staffCanOpen} from './lib/auth-policy.mjs';
+import {authErrorKind,authErrorMessage} from './lib/auth-errors.mjs';
 for(const value of ['https://evil.example','//evil.example','/\\evil.example','/\nevil','javascript:alert(1)',null,[], '/ /evil'])assert.equal(safeNext(value),'/account');
 assert.equal(safeNext('/account/orders?tab=recent'),'/account/orders?tab=recent');
 assert.equal(safeNext('/admin','/admin'),'/admin');
@@ -9,4 +10,7 @@ assert.equal(staffCanOpen('viewer','/admin/analytics'),true);
 assert.equal(staffCanOpen('viewer','/admin/products'),false);
 assert.equal(staffCanOpen('support','/admin/team'),false);
 assert.equal(staffCanOpen('operations','/admin/deliveries'),true);
-console.log('PASS: redirect validation, inactive/unknown roles denied, staff route permissions.');
+for(const [error,kind] of [[{code:'over_email_send_rate_limit',status:429,message:'email rate limit exceeded'},'rate'],[{status:429,message:'x'},'rate'],[{message:'For security purposes, you can only request this after 52 seconds.',status:429},'rate'],[{code:'email_address_invalid',message:'Email address "test@gmail.com" is invalid'},'invalid'],[{message:'Email address "test@gmail.com" is invalid'},'invalid'],[{code:'email_address_not_authorized',message:'Email address not authorized'},'blocked'],[{message:'User already registered'},'exists'],[{code:'weak_password',message:'Password is known to be weak'},'weak'],[{code:'invalid_credentials'},'login'],[{code:'captcha_failed',message:'captcha protection: request disallowed (invalid-input-response)'},'captcha'],[{message:'captcha verification process failed'},'captcha'],[{message:'Something odd'},null]])assert.equal(authErrorKind(error),kind,JSON.stringify(error));
+assert.ok(!authErrorMessage({message:'Email address "test@gmail.com" is invalid'},'signup').includes('test@gmail.com'),'raw provider text must not be shown');
+assert.match(authErrorMessage({message:'Something odd'},'login'),/couldn't log you in/);assert.match(authErrorMessage({message:'Something odd'},'signup'),/Something went wrong/);
+console.log('PASS: redirect validation, inactive/unknown roles denied, staff route permissions, friendly auth errors.');

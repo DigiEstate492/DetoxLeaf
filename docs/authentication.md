@@ -38,3 +38,13 @@ The insecure local email selector has been removed. Account pages use the authen
 ## Verification
 
 `node test-auth.mjs` checks redirect sanitization and staff role restrictions. `node supabase/test-schema.mjs` verifies the schema/RLS boundaries. Build and logged-out HTTP route tests verify page compilation and account/admin redirects. A real signup, confirmation email, password reset and approved-admin login still require testing with a mailbox you control and the hosted project's SMTP/URL settings. No fake users are seeded and no email is sent by the test scripts.
+
+## Spam protection (Cloudflare Turnstile)
+
+Signup, login and password reset forms show a Cloudflare Turnstile check when `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is set. Without the key the forms work exactly as before. The token is sent to Supabase Auth, which verifies it with the secret key stored in Supabase.
+
+1. In the Cloudflare dashboard, open Turnstile and add a widget for your domain (and `localhost` for local testing), mode **Managed**. Copy the site key and secret key.
+2. Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in your hosting environment and `.env.local`, then redeploy and restart `npm run dev`.
+3. Only after that deploy is live: Supabase Dashboard > Authentication > Attack Protection > enable Captcha protection, provider Turnstile, and paste the secret key.
+
+Doing step 3 before step 2 is live blocks every signup and login, because the forms would not send a token yet. Cloudflare's test site key `1x00000000000000000000AA` always passes; use it for local testing only.
