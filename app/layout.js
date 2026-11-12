@@ -1,11 +1,13 @@
+import { Suspense } from "react";
 import Script from "next/script";
 import localFont from "next/font/local";
 import "./globals.css";
-import DemoToasts from "./demo-toasts";
+import SiteToasts from "./site-toasts";
 import MobileBuyBar from "./mobile-buy-bar";
 import WhatsAppContact from "./whatsapp-contact";
 import CelebrationLayer from "./celebration-layer";
 import AnalyticsTracker from "./analytics-tracker";
+import RouteProgress from "./route-progress";
 const display = localFont({
   src: [
     { path: "./fonts/Poppins-Regular.woff2", weight: "400" },
@@ -32,10 +34,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
+        <Suspense fallback={null}>
+          <RouteProgress />
+        </Suspense>
         <CelebrationLayer />
         <AnalyticsTracker />
         {children}
-        <DemoToasts />
+        <SiteToasts />
         <WhatsAppContact />
         <MobileBuyBar />
         <Script id="google-tag-manager-init">{`window.dataLayer = window.dataLayer || [];

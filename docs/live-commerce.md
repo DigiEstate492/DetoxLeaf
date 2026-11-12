@@ -49,3 +49,11 @@ A hosted end-to-end signup/payment/email/delivery test still requires configured
 ## Admin data manager
 
 Open `/admin/data` for every commerce table/view. Editable business records use forms, related-record dropdowns and paginated lists. Product image presets include the generated wheatgrass and powder assets; a negative image display order selects the wheatgrass homepage card image. Admin subscription edits change future schedule details only. Manual reward adjustments append a reasoned ledger entry; historical entries cannot be rewritten or make the balance negative. Orders, deliveries, reviews and support use dedicated workflow buttons. Financial, stock movement, webhook and audit history are read-only. Run/rerun the complete live-commerce migration once to install the latest write permissions; ongoing record changes then happen in the app.
+
+## Invoices
+
+Run `supabase/migrations/202611100001_invoices.sql` once. Online orders get an invoice number the moment payment is captured. Cash-on-delivery orders get one the moment they are placed, showing "Amount due on delivery" until the cash is recorded as collected, then "Total paid" with the same number. Cancelled orders keep their invoice, marked CANCELLED, so numbering has no gaps. Live numbers run per Indian financial year (`DL/2026-27/0001`, `DL/2026-27/0002`, …) with no gaps. Test orders use a separate `DL/TEST/…` series. Orders already paid, and open cash-on-delivery orders, are numbered in the order they were placed when the migration runs.
+
+Customers open the invoice from **Account → Orders → Download invoice**, or from the link in the order confirmation, payment receipt and delivered emails. Staff open it from **Admin → Orders → Invoice**. The page is at `/account/orders/<order id>/invoice`; "Download PDF / Print" uses the browser's Save as PDF.
+
+Seller details come from `INVOICE_LEGAL_NAME`, `INVOICE_ADDRESS`, `INVOICE_STATE`, `INVOICE_GSTIN`, `INVOICE_HSN`, `INVOICE_PHONE` and `INVOICE_EMAIL`. Without a GSTIN the document is titled "Invoice". With a GSTIN it is a "Tax Invoice" when GST was charged, or a "Bill of Supply" when the order has 0% GST. GST is shown as CGST + SGST when the delivery PIN is in `INVOICE_STATE`, otherwise as IGST. Confirm the wording, HSN code and GST rates with your accountant.

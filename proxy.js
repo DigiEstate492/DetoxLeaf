@@ -15,6 +15,8 @@ export async function proxy(request){
  if(user&&(path==="/admin"||path.startsWith("/admin/"))){
   const {data:staff,error:roleError}=await supabase.from("staff_members").select("role,active").eq("user_id",user.id).maybeSingle();
   if(roleError||!allowedStaff(staff))return go("/access-pending");
+  // Managers only write blog posts, so the admin home takes them straight there.
+  if(staff.role==="manager"&&(path==="/admin"||path==="/admin/"))return go("/admin/blog");
   if(!staffCanOpen(staff.role,path))return go("/access-pending?reason=permission");
  }
  response.headers.set("Cache-Control","private, no-store");return response;

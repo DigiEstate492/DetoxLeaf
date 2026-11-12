@@ -48,3 +48,11 @@ Signup, login and password reset forms show a Cloudflare Turnstile check when `N
 3. Only after that deploy is live: Supabase Dashboard > Authentication > Attack Protection > enable Captcha protection, provider Turnstile, and paste the secret key.
 
 Doing step 3 before step 2 is live blocks every signup and login, because the forms would not send a token yet. Cloudflare's test site key `1x00000000000000000000AA` always passes; use it for local testing only.
+
+## Blog managers
+
+Run `supabase/migrations/202611100002_blog_managers.sql` once. It adds the `manager` role. Managers can create, edit, publish, hide and delete blog posts at **/admin/blog**, and nothing else: no orders, customers, settings, policies or sales reports. Row-level security enforces this in the database. Owners and admins can also use /admin/blog.
+
+To add a manager, the person signs up at `/admin-signup` and confirms their email. Then an owner opens **Admin → Store & team → Staff access**, adds a record with their user ID and role `manager`, and ticks Active. Untick Active to remove access.
+
+Each post records who created it (`author_id`, which cannot be changed later) and shows a byline (`author_name`, defaulting to the writer's profile name). Every create, edit and delete is written to the audit log with the person who did it.
