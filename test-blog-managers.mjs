@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';import {readFileSync} from 'node:fs';
 import {slugify,textToParagraphs,paragraphsToText,validateBlogPost,readMinutes} from './lib/blog-editor.mjs';
+import {blocksToSections,bodyBlocks,parseInline,plainText,sanitizeBlocks,shortcut,wordCount} from './lib/blog-blocks.mjs';
 import {allowedStaff,staffCanOpen,staffRoles} from './lib/auth-policy.mjs';
 
 // Editor helpers
@@ -12,8 +13,21 @@ assert.match(validateBlogPost({title:'Hi'}).error,/title/);
 assert.match(validateBlogPost({title:'Ready to go',status:'published',sections:[{title:'Only a heading',paragraphs:[]}]}).error,/before publishing/);
 assert.match(validateBlogPost({title:'Cover check',cover_image:'javascript:alert(1)'}).error,/cover image/);
 const ok=validateBlogPost({title:'Morning greens',status:'published',cover_image:'/media/wheatgrass-hero.png',sections:[{title:'Start',text:'One.\n\nTwo.'},{title:'',text:''}],kind:'policy'}).post;
-assert.equal(ok.kind,'blog','kind is always blog');assert.equal(ok.slug,'morning-greens');assert.deepEqual(ok.body,{sections:[{title:'Start',paragraphs:['One.','Two.']}]});
+assert.equal(ok.kind,'blog','kind is always blog');assert.equal(ok.slug,'morning-greens');assert.deepEqual(ok.body,{blocks:[{type:'h2',text:'Start'},{type:'p',text:'One.'},{type:'p',text:'Two.'}],sections:[{title:'Start',paragraphs:['One.','Two.']}]});
 assert.equal(validateBlogPost({title:'Status',status:'deleted'}).post.status,'draft');
+
+// Rich blocks
+assert.deepEqual(parseInline('Try **fresh** *greens* with `ice` — [recipes](/recipes) or [site](https://example.com/a).').map(t=>t.type),['text','b','text','i','text','code','text','link','text','link','text']);
+assert.deepEqual(parseInline('[bad](javascript:alert(1))'),[{type:'text',text:'[bad](javascript:alert(1))'}],'unsafe links stay plain text');
+assert.equal(plainText('A **b** [c](/d)'),'A b c');
+assert.deepEqual(shortcut('## '),{type:'h2',text:''});assert.deepEqual(shortcut('### Sub'),{type:'h3',text:'Sub'});assert.deepEqual(shortcut('> '),{type:'quote',text:''});assert.deepEqual(shortcut('- '),{type:'ul',text:''});assert.deepEqual(shortcut('1. '),{type:'ol',text:''});assert.deepEqual(shortcut('---'),{type:'divider'});assert.equal(shortcut('Hello'),null);
+const rich=sanitizeBlocks([{type:'p',text:'  Hi  '},{type:'script',text:'becomes a paragraph'},{type:'image',src:'javascript:alert(1)'},{type:'image',src:'/media/wheatgrass-hero.png',caption:'Tray'},{type:'ul',items:['one','','two']},{type:'p',text:''},{type:'divider'},{type:'h2',text:'Next'},{type:'quote',text:'Fresh'}]);
+assert.deepEqual(rich.map(b=>b.type),['p','p','image','ul','divider','h2','quote']);assert.deepEqual(rich[3].items,['one','two']);
+assert.deepEqual(blocksToSections(rich),[{title:'',paragraphs:['Hi','becomes a paragraph','one · two']},{title:'Next',paragraphs:['Fresh']}]);
+assert.deepEqual(bodyBlocks({sections:[{title:'Old',paragraphs:['Post']}]}),[{type:'h2',text:'Old'},{type:'p',text:'Post'}],'older posts still render');
+assert.equal(wordCount(rich),9);
+assert.match(validateBlogPost({title:'Images only',status:'published',blocks:[{type:'image',src:'/media/wheatgrass-hero.png'}]}).error,/before publishing/);
+const richPost=validateBlogPost({title:'Rich',status:'published',blocks:[{type:'p',text:'Hello **there**'}]}).post;assert.deepEqual(richPost.body.sections,[{title:'',paragraphs:['Hello there']}]);
 
 // Admin access rules
 assert.ok(staffRoles.includes('manager')&&allowedStaff({role:'manager',active:true}));
